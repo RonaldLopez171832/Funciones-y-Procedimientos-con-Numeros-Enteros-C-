@@ -176,22 +176,150 @@ bool son2Pares(int n){
     return (c==4);
 }
 
-bool esEscalera(int n){
-  ordenarNumero(n);
-  cout<<n<<endl; //n= 98732
-  int d,aux=n,dr=aux%10;
+bool esEscalera(int n);
+void eliminarTodosLosDigitos(int& n, int dig);
+void eliminarNumeroDentroDeOtro(int& n,int n2);
+//Ejemplo: N = 12345 → Resultado = 51234
+//sobrecarga de funciones
+void rotarDerecha(int& n){
+  int d=n%10; //sacar el digito 5
+  n=n/10;     //corto el digito 5 n=1234
+  int cd=cantDig(n);
+  n=d*pow(10,cd)+n;
+}
 
-  while(aux>0){
-      d=aux%10; 
-      aux=aux/10; 
-      //cout<<dr<<" != "<<d<<endl;
-      if(dr!=d){ 
-         return false; 
-      }
-      dr++;
-      //cout<<"d= "<<d<<" aux= "<<aux<< " dr= "<<dr<<endl;
-  }
-  return true;
+void rotarDerecha(int& n, int cant){
+    for(int i=1;i<=cant;i++){
+        rotarDerecha(n);
+    }
+}
+//Ejemplo: N = 12345 → Resultado = 23451
+void rotarIzquierda(int& n){
+ int cd= cantDig(n); //cant digitos del numero
+  int d= n / pow(10, cd-1) ;    //obtener el 1
+    n= n%(int)pow(10,cd-1); //n= 2345
+    n= n*10 + d;
+}
+
+void rotarIzquierda(int& n, int cant){
+    for(int i=1;i<=cant;i++){
+        rotarIzquierda(n);
+    }
+}
+ bool verifPrimo(int n){
+     int c=0;
+     for (int i=1;i<=n;i++)
+         if(n%i==0) c++;
+     return (c==2);
+ }
+void segmentarPrimoNoPrimo(int& n){
+    int nn=0,d=0,aux=n;
+    //primero sacamos digitos primos
+    while(aux>0){
+        d=aux%10;
+        aux=aux/10;
+        if(verifPrimo(d)){
+            nn=nn*10+d;
+        }
+    }
+    aux=n; //recupera el valor de n
+     while(aux>0){
+        d=aux%10;
+        aux=aux/10;
+        if(!verifPrimo(d)){
+            nn=nn*10+d;
+        }
+    }
+    n=nn;
+}
+
+void segmentarPrimoNoPrimo(int& n,int cd){
+    int nn=0,d=0,aux=n;
+    //primero sacamos digitos primos
+    while(aux>0){
+        d=aux%(int)pow(10,cd);
+        aux=aux/pow(10,cd);
+        if(verifPrimo(d)){
+            nn=nn*pow(10,cd)+d;
+        }
+    }
+    aux=n; //recupera el valor de n
+     while(aux>0){
+        d=aux%(int)pow(10,cd);
+        aux=aux/pow(10,cd);
+        if(!verifPrimo(d)){
+            nn=nn*pow(10,cd)+d;
+        }
+    }
+    n=nn;
+}
+
+void segmentarPrimoNoPrimoV2(int& n){
+    int np=0,nnp=0,d=0,aux=n,cdnp=0;
+    //primero sacamos digitos primos
+    while(aux>0){
+        d=aux%10;
+        aux=aux/10;
+        if(verifPrimo(d))
+            np=np*10+d;
+        else{
+            nnp=nnp*10+d;
+            cdnp++;
+        }
+    }
+    n=np*pow(10,cdnp)+nnp;
+}
+
+
+void intercalarPrimoNoprimo(int& n){
+    int np=n,nnp=n,nn=0,d=0;
+    bool encontreP=false;
+    bool encontreNP=false;
+    while(np>0||nnp>0){
+        encontreP=false;
+        while(np>0&&encontreP==false){
+          d=np%10;
+          np=np/10;
+          if(verifPrimo(d)){
+            nn=nn*10+d;
+            encontreP=true;
+          }
+        }
+        encontreNP=false;
+        while(nnp>0&&encontreNP==false){
+          d=nnp%10;
+          nnp=nnp/10;
+          if(!verifPrimo(d)){
+            nn=nn*10+d;
+            encontreNP=true;
+          }
+        }
+    }
+    n=nn;
+}
+int main() {
+    int n=456372;
+    cout<<"n= "<<n<<endl;
+    intercalarPrimoNoprimo(n);
+    //segmentarPrimoNoPrimo(n,2);
+    //segmentarPrimoNoPrimoV2(n);
+   // rotarDerecha(n,3);
+    // rotarIzquierda(n,3);
+    //eliminarNumeroDentroDeOtro(n,34);
+   // eliminarTodosLosDigitos(n,3);
+    cout<<"n= "<<n<<endl;
+   // cout<<esEscalera(n);
+   // cout<<poker(n);
+// cout<<frecuencia(n,2);
+ // cout<<"Dig mas rep: "<<digMasRepe(n)<<endl<<endl;
+  //ordenarNumero(n);
+//  invertir(n);
+//mantenerOrden(n);
+//mostrarNdDigitos(n,3);
+//int n2=234;
+//cout<<"n2= "<<n2<<" "<<existeNumDentroDeOtroNume(n,n2);
+ // cout<<" n= "<<n;
+    return 0;
 }
 
 
@@ -225,32 +353,21 @@ void eliminarNumeroDentroDeOtro(int& n,int n2){
     
     
 }
- 
+bool esEscalera(int n){
+  ordenarNumero(n);
+  cout<<n<<endl; //n= 98732
+  int d,aux=n,dr=aux%10;
 
-
-
-
-int main() {
-    int n=213452;
-    cout<<"n= "<<n<<" n2=34"<<endl;
-    eliminarNumeroDentroDeOtro(n,34);
-   // eliminarTodosLosDigitos(n,3);
-    cout<<"n= "<<n<<endl;
-   // cout<<esEscalera(n);
-   // cout<<poker(n);
-// cout<<frecuencia(n,2);
- // cout<<"Dig mas rep: "<<digMasRepe(n)<<endl<<endl;
-  //ordenarNumero(n);
-//  invertir(n);
-//mantenerOrden(n);
-//mostrarNdDigitos(n,3);
-//int n2=234;
-//cout<<"n2= "<<n2<<" "<<existeNumDentroDeOtroNume(n,n2);
- // cout<<" n= "<<n;
-    return 0;
-    
-    
-    
-    
-    
+  while(aux>0){
+      d=aux%10; 
+      aux=aux/10; 
+      //cout<<dr<<" != "<<d<<endl;
+      if(dr!=d){ 
+         return false; 
+      }
+      dr++;
+      //cout<<"d= "<<d<<" aux= "<<aux<< " dr= "<<dr<<endl;
+  }
+  return true;
 }
+ 
