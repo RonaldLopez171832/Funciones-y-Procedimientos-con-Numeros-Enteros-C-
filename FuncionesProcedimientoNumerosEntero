@@ -297,17 +297,147 @@ void intercalarPrimoNoprimo(int& n){
     }
     n=nn;
 }
+
+bool verifCapicua(int n){
+    int na=n;   //na=numero auxiliar
+    invertir(na);
+    return na==n;
+}
+
+bool verifCapicua2(int n){
+    int na=n;
+    int d=0,nn=0;
+     while(n>0){
+         d=n%10;
+         n=n/10;
+         nn = nn * 10 + d;
+         //cout<<"nn= "<<nn<<endl;
+     }
+    return na==nn;
+}
+
+//n1=10 n2=888 => nn=10888
+int unir2Numeros(int n1,int n2){
+    int cd=cantDig(n2);
+    return  n1* pow(10,cd)+n2;
+}
+int unir3Numeros(int n1,int n2,int n3){
+    int nn=0;
+    int cd=cantDig(n2);
+    nn= n1* pow(10,cd)+n2;
+    int cd=cantDig(n3);
+    nn= nn* pow(10,cd)+n3;
+    return nn;
+}
+
+
+// N₁ = 123, N₂ = 34, N₃ = 7 → Resultado = 734123
+int unir3numeroAsc(int n1,int n2,int n3 ){
+    int nn=0;
+    if(n1>n2 && n1>n3){// N₁ = 123, N₂ = 34, N₃ = 7 → Resultado = 734123
+        if(n2>n3){
+           nn=unir2Numeros(n2,n1); //34123
+           nn=unir2Numeros(n3,nn); //734123
+        }else{
+            nn=unir2Numeros(n3,n1); //34123
+            nn=unir2Numeros(n2,nn); //734123
+        }
+    }else if(n2>n1 && n2>n3){// N₁ = 34, N₂ = 123, N₃ = 7 → Resultado = 734123
+       if(n1>n3){
+           nn=unir2Numeros(n1,n2); //
+           nn=unir2Numeros(n3,nn); //
+        }else{
+            nn=unir2Numeros(n3,n2); //
+            nn=unir2Numeros(n1,nn); //
+        }
+    }else if(n3>n1 && n3>n2){// N₁ = 34, N₂ = 7, N₃ = 123 → Resultado = 734123
+       if(n1>n2){
+           nn=unir2Numeros(n1,n3); //
+           nn=unir2Numeros(n2,nn); //
+        }else{
+            nn=unir2Numeros(n2,n3); //
+            nn=unir2Numeros(n1,nn); //
+        }
+    }
+    
+    return nn;  
+}
+
+// N₁ = 123, N₂ = 34, N₃ = 7 → Resultado = 734123
+int unir3numeroAscV2(int n1,int n2,int n3 ){
+    int nn=0;
+    if(n1>n2 && n1>n3 && n2>n3){
+       return unir3Numeros(n3,n2,n1);
+    if(n1>n2 && n1>n3 && n3>n2){
+       return unir3Numeros(n2,n3,n1);
+     if(n2>n1 && n2>n3 && n1>n3){
+       return unir3Numeros(n3,n1,n2);
+    if(n2>n1 && n2>n3 && n3>n1){
+       return unir3Numeros(n1,n3,n2);
+    if(n3>n1 && n3>n2 && n1>n2){
+       return unir3Numeros(n2,n1,n3);
+         if(n3>n1 && n3>n2 && n2>n1){
+       return unir3Numeros(n1,n2,n3);
+  
+}
+int unir3numeroAscV3(int n1,int n2,int n3 ){
+int nn = 0;
+int caseValue = 0;
+
+if(n1 > n2 && n1 > n3) {
+    if(n2 > n3) {
+        caseValue = 1; // n1 > n2 > n3
+    } else {
+        caseValue = 2; // n1 > n3 > n2
+    }
+} else if(n2 > n1 && n2 > n3) {
+    if(n1 > n3) {
+        caseValue = 3; // n2 > n1 > n3
+    } else {
+        caseValue = 4; // n2 > n3 > n1
+    }
+} else {
+    if(n1 > n2) {
+        caseValue = 5; // n3 > n1 > n2
+    } else {
+        caseValue = 6; // n3 > n2 > n1
+    }
+}
+
+switch(caseValue) {
+    case 1:
+        return unir3Numeros(n3, n2, n1); // n1 > n2 > n3
+    case 2:
+        return unir3Numeros(n2, n3, n1); // n1 > n3 > n2
+    case 3:
+        return unir3Numeros(n3, n1, n2); // n2 > n1 > n3
+    case 4:
+        return unir3Numeros(n1, n3, n2); // n2 > n3 > n1
+    case 5:
+        return unir3Numeros(n2, n1, n3); // n3 > n1 > n2
+    case 6:
+        return unir3Numeros(n1, n2, n3); // n3 > n2 > n1
+    default:
+        return -1; // No matching case
+}
+
+}
+
 int main() {
-    int n=456372;
-    cout<<"n= "<<n<<endl;
-    intercalarPrimoNoprimo(n);
+    int n=50105;
+   // cout<<"n= "<<n<<endl;
+   // cout<<unir2Numeros(10,888)<<endl;
+    //cout<<unir3numeroAsc(34,123,7)<<endl;//734123
+     cout<<unir3numeroAsc(7,7,123)<<endl;//734123
+    //cout<<verifCapicua(n)<<endl;
+    //intercalarPrimoNoprimo(n);
     //segmentarPrimoNoPrimo(n,2);
     //segmentarPrimoNoPrimoV2(n);
    // rotarDerecha(n,3);
     // rotarIzquierda(n,3);
     //eliminarNumeroDentroDeOtro(n,34);
    // eliminarTodosLosDigitos(n,3);
-    cout<<"n= "<<n<<endl;
+   // cout<<"n= "<<n<<endl;
    // cout<<esEscalera(n);
    // cout<<poker(n);
 // cout<<frecuencia(n,2);
@@ -370,4 +500,3 @@ bool esEscalera(int n){
   }
   return true;
 }
- 
