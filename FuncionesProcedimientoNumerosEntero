@@ -321,11 +321,13 @@ int unir2Numeros(int n1,int n2){
     int cd=cantDig(n2);
     return  n1* pow(10,cd)+n2;
 }
+
+
 int unir3Numeros(int n1,int n2,int n3){
     int nn=0;
     int cd=cantDig(n2);
     nn= n1* pow(10,cd)+n2;
-    int cd=cantDig(n3);
+    cd=cantDig(n3);
     nn= nn* pow(10,cd)+n3;
     return nn;
 }
@@ -365,7 +367,7 @@ int unir3numeroAsc(int n1,int n2,int n3 ){
 
 // N₁ = 123, N₂ = 34, N₃ = 7 → Resultado = 734123
 int unir3numeroAscV2(int n1,int n2,int n3 ){
-    int nn=0;
+    /*int nn=0;
     if(n1>n2 && n1>n3 && n2>n3){
        return unir3Numeros(n3,n2,n1);
     if(n1>n2 && n1>n3 && n3>n2){
@@ -378,8 +380,11 @@ int unir3numeroAscV2(int n1,int n2,int n3 ){
        return unir3Numeros(n2,n1,n3);
          if(n3>n1 && n3>n2 && n2>n1){
        return unir3Numeros(n1,n2,n3);
-  
 }
+}*/
+return 0;
+}
+
 int unir3numeroAscV3(int n1,int n2,int n3 ){
 int nn = 0;
 int caseValue = 0;
@@ -423,12 +428,138 @@ switch(caseValue) {
 
 }
 
+
+//Ejemplo: N = 213452,
+//NA₁ = 34,
+//NA₂ = 10 → Resultado = 211052
+
+void ejercicioDificilEjercicio1(int& n, int na1, int na2){
+    int d,nn=0,e=0;
+    int cd=cantDig(na1);
+    while(n>0){
+        d=n % (int)pow(10,cd);
+        n=n/ pow(10,cd);
+        if(d==na1)
+            nn=nn+na2 *pow(10,e);
+        else
+            nn=nn+d*pow(10,e);
+        e=e+cd;
+    }
+    n=nn;
+}
+
+
+//Ejemplo: N = 213452,
+//na1 = 45
+//na2 = 99
+//n= 213992
+void ejercicioDificilEjercicio1V2(int& n, int na1, int na2){
+    int d,nn=0,e=0;
+    int cd=cantDig(na1);
+    //n=213452
+    while(n>0){
+        d=n % (int)pow(10,cd); //D=52
+        if(d==na1){ //52 == 45
+            n=n/ pow(10,cd);  //N=21345
+            nn=nn+na2 *pow(10,e);
+             e=e+cd;
+        }else{
+            n=n/ 10;  //N=21345
+            d=d%10; //2
+             nn=nn+d*pow(10,e);  // 2
+             e++;
+        }
+    }
+    n=nn;
+}
+
+
+//Ejemplo: N = 213452,
+//na1 = 45
+//na2 = 999
+//n= 2139992
+
+void ejercicioDificilEjercicio1V3(int& n, int na1, int na2){
+    int d,nn=0,e=0;
+    int cd=cantDig(na1);
+    int cdna2=cantDig(na2);
+    //n=213452
+    while(n>0){
+        d=n % (int)pow(10,cd); //D=13
+        if(d==na1){ //13 == 45
+            n=n/ pow(10,cd);  //213
+            nn=nn+na2 *pow(10,e); //9992
+            e=e+cdna2; //e =3
+           // cout<<"nn= "<<nn<<" e= "<<e<<endl;
+        }else{
+            n=n/ 10;  //N=21
+            d=d%10; //3
+            nn=nn+d*pow(10,e);  // 39992
+            e++;
+           // cout<<"nn= "<<nn<<" e= "<<e<<endl;
+        }
+    }
+    n=nn;
+}
+
+//N = 1234567
+//F = 1/5! − 1/3! + 1/2! − 1/1!
+
+int factorial(int n){
+    int f=1;
+    for (int i=1;i<=n;i++){
+        f=f*i;
+    }
+    return f;
+}
+
+bool verifFibo(int n){
+    int a=-1,b=1,f=0;
+    while(f<=n){
+        f=a+b;
+        a=b;
+        b=f;
+        if(f==n)
+          return true;
+    }
+    return false;
+}
+//N = 1234567
+//F = 1/5! − 1/3! + 1/2! − 1/1!
+double ejercicioDificilEjer7(int n){
+    double f=0;
+    int d=0;
+    int na=n;
+    bool bandera=true;
+    cout<<"f = ";
+    while(na>0){
+        d=na%10;
+        na=na/10;
+        if(verifFibo(d)){
+            if(bandera){
+               f=f + (1/ (double)factorial(d));
+               cout<< "+ 1/"<<d<<"! ";
+            }else{
+               f=f - (1/ (double)factorial(d));
+               cout<< "- 1/"<<d<<"! ";
+            }
+            bandera=!bandera;  
+           // cout<<"F= "<<f<<endl;
+        }
+    }
+    cout<<" = ";
+    return f;
+}
+
 int main() {
-    int n=50105;
-   // cout<<"n= "<<n<<endl;
+    int n=1234567;
+    cout<<"n= "<<n<<endl;
+    cout<<ejercicioDificilEjer7(n)<<endl; //-0.6583
+    //ejercicioDificilEjercicio1V3(n,45,999);
+    cout<<"n= "<<n<<endl;
    // cout<<unir2Numeros(10,888)<<endl;
     //cout<<unir3numeroAsc(34,123,7)<<endl;//734123
-     cout<<unir3numeroAsc(7,7,123)<<endl;//734123
+     //cout<<unir3numeroAsc(7,7,123)<<endl;//734123
     //cout<<verifCapicua(n)<<endl;
     //intercalarPrimoNoprimo(n);
     //segmentarPrimoNoPrimo(n,2);
