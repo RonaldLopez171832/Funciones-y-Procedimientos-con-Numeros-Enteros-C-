@@ -551,10 +551,53 @@ double ejercicioDificilEjer7(int n){
     return f;
 }
 
+
+bool ejercicioDificilEjer8(int n, int nd){
+    int d;int na=n;
+    while (na>0){
+        d=na % (int)pow(10,nd);
+        na=na/pow(10,nd);
+        if(!verifFibo(d))return false;
+    }
+   return true; 
+}
+
+bool ejercicioDificilEjer9(int n, int nd){
+    int d;int na=n; //n= 12 34 56 78
+    int dr=na % (int)pow(10,nd); //78
+    na=na/pow(10,nd); //n=12 34 56
+    while(na>0){
+        d=na % (int)pow(10,nd);
+         na=na/pow(10,nd);
+         if(dr>=d) dr=d;
+         else return false;
+    }
+    return true;
+}
+
+int ejercicioDificilEjer6(int n, int base){
+  int residuo,na=n,nn=0,e=0;
+  while(na>0){
+      residuo=na%base;
+      // cout<< na<<"/"<<base<<" r="<<residuo<<endl;
+      na=na/base;
+      //cout<< na<<"/"<<base<<" na="<<na<<endl;
+      nn=nn+residuo*pow(10,e);
+      //cout<< "nn= "<<nn<<endl;
+      e++;
+  }
+  return nn;  
+}
+    
+    
+
 int main() {
-    int n=1234567;
+    int n=36;
     cout<<"n= "<<n<<endl;
-    cout<<ejercicioDificilEjer7(n)<<endl; //-0.6583
+   // cout<<ejercicioDificilEjer7(n)<<endl; //-0.6583
+   // cout<<ejercicioDificilEjer8(n,2)<<endl; //-0.6583
+   // cout<<ejercicioDificilEjer9(n,2)<<endl;
+    cout<<ejercicioDificilEjer6(n,7)<<endl;
     //ejercicioDificilEjercicio1V3(n,45,999);
     cout<<"n= "<<n<<endl;
    // cout<<unir2Numeros(10,888)<<endl;
